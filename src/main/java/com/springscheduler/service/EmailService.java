@@ -25,6 +25,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.springscheduler.GMailAuthenticator;
+
 @Transactional
 @Service
 public class EmailService {
@@ -69,12 +71,7 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
         props.put("mail.smtp.port", SMTP_PORT);
         props.put("mail.smtp.starttls.enable", SMTP_STARTTLS);
 
-        Session session = Session.getDefaultInstance(props,
-            new javax.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(ADMIN_EMAIL,ADMIN_PASSWORD);
-                }
-            });
+        Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD));
 
 
         try {
@@ -104,12 +101,7 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
         props.put("mail.smtp.port", SMTP_PORT);
         props.put("mail.smtp.starttls.enable", SMTP_STARTTLS);
 
-        Session session = Session.getDefaultInstance(props,
-            new javax.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(ADMIN_EMAIL,ADMIN_PASSWORD);
-                }
-            });
+        Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD));
 
 
         try {
@@ -152,13 +144,7 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 	    props.put("mail.smtp.starttls.enable","true"); 
 	    props.put("mail.smtp.EnableSSL.enable","true");
 
-        Session session = Session.getDefaultInstance(props,
-            new javax.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(ADMIN_EMAIL,ADMIN_PASSWORD);
-                }
-            });
-
+        Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD)); 
 
         try {
         	LOGGER.info("email send " + EMAIL_SENDER);
