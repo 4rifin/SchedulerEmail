@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.springscheduler.bean.UserBean;
 import com.springscheduler.model.User;
 import com.springscheduler.service.EmailService;
+import com.springscheduler.service.SchedulerService;
 import com.springscheduler.service.UserService;
 
 @Controller
@@ -25,6 +26,8 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	EmailService emailService;
+	@Autowired
+	SchedulerService schedulerService;
 
 	
 	public static final String path = "user";
@@ -35,6 +38,7 @@ public class UserController {
 	public String ShowHomePageLogin(HttpServletRequest httpServletRequest,Model model){
 		List<User>listUser = userService.findAll();
 		model.addAttribute("listUser",listUser);
+		schedulerService.sendEmailEveryTenMinutes();
 		return path + "/" +"index";
 	}
 
@@ -100,7 +104,7 @@ public class UserController {
 		redirectAttrs.addFlashAttribute("messageType" , "Info");
 		redirectAttrs.addFlashAttribute("message" , "Success Register");
 		userService.saveUser(params);
-
+		
 		return "redirect:" + "/addUser";
 	}
 	
