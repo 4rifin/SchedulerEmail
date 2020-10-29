@@ -142,7 +142,7 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 	    props.put("mail.smtp.host", SMTP_HOST); 
 	    props.put("mail.smtp.port", SMTP_PORT); 
 	    props.put("mail.smtp.auth", "true"); 
-	    props.put("mail.smtp.starttls.enable","true"); 
+	    props.put("mail.smtp.starttls.enable","false"); 
 	    props.put("mail.smtp.EnableSSL.enable","true");
 
         //Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD)); 
@@ -155,11 +155,11 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 		Session session = Session.getDefaultInstance(props, authenticator);
 
         try {
-        	LOGGER.info("email send from " + EMAIL_SENDER);
+        	LOGGER.info("email send from " + ADMIN_EMAIL);
         	LOGGER.info("email send to " + to);
         	LOGGER.info("email send tocc " + tocc);
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(EMAIL_SENDER, EMAIL_ALIAS));
+            message.setFrom(new InternetAddress(ADMIN_EMAIL, EMAIL_ALIAS));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to!=null?to:tocc));
             message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(tocc!=null?tocc:to));
             message.setSubject(subject);
