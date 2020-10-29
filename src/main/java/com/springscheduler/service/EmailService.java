@@ -142,7 +142,7 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 	    props.put("mail.smtp.host", SMTP_HOST); 
 	    props.put("mail.smtp.port", SMTP_PORT); 
 	    props.put("mail.smtp.auth", "true"); 
-	    props.put("mail.smtp.starttls.enable","false"); 
+	    props.put("mail.smtp.starttls.enable","true"); 
 	    props.put("mail.smtp.EnableSSL.enable","true");
 
         //Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD)); 
