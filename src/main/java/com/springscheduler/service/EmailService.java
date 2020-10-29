@@ -7,6 +7,7 @@ import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -144,7 +145,14 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 	    props.put("mail.smtp.starttls.enable","true"); 
 	    props.put("mail.smtp.EnableSSL.enable","true");
 
-        Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD)); 
+        //Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD)); 
+        Authenticator authenticator = new Authenticator () {
+            public PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(ADMIN_EMAIL,ADMIN_PASSWORD); 
+            }
+        };
+
+		Session session = Session.getDefaultInstance(props, authenticator);
 
         try {
         	LOGGER.info("email send from " + EMAIL_SENDER);
