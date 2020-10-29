@@ -38,7 +38,6 @@ public class UserController {
 	public String ShowHomePageLogin(HttpServletRequest httpServletRequest,Model model){
 		List<User>listUser = userService.findAll();
 		model.addAttribute("listUser",listUser);
-		schedulerService.sendEmailEveryTenMinutes();
 		return path + "/" +"index";
 	}
 
