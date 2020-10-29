@@ -147,7 +147,9 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
         Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD)); 
 
         try {
-        	LOGGER.info("email send " + EMAIL_SENDER);
+        	LOGGER.info("email send from " + EMAIL_SENDER);
+        	LOGGER.info("email send to " + to);
+        	LOGGER.info("email send tocc " + tocc);
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(EMAIL_SENDER, EMAIL_ALIAS));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to!=null?to:tocc));
@@ -156,7 +158,8 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
             message.setContent(content, "text/html; charset=utf-8");           
             Transport.send(message);
         } catch (MessagingException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+        	LOGGER.error("email failed send " +e);
+        	e.printStackTrace();
             //throw new RuntimeException(e);
         }
     }
