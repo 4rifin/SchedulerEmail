@@ -142,18 +142,18 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 	    props.put("mail.smtp.host", SMTP_HOST); 
 	    props.put("mail.smtp.port", SMTP_PORT); 
 	    props.put("mail.smtp.auth", "true"); 
-	    props.put("mail.smtp.starttls.enable","true");
+	    props.put("mail.smtp.starttls.enable","false"); 
 	    props.put("mail.smtp.EnableSSL.enable","true");
 
-        //Session session =  Session.getDefaultInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD)); 
+        //Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD)); 
         Authenticator authenticator = new Authenticator () {
             public PasswordAuthentication getPasswordAuthentication(){
-                return new PasswordAuthentication(ADMIN_EMAIL,ADMIN_PASSWORD); 
+                return new PasswordAuthentication(ADMIN_EMAIL,ADMIN_PASSWORD);
             }
         };
 
-		Session session = Session.getDefaultInstance(props, authenticator);
-
+		Session session = Session.getDefaultInstance(props, authenticator); 
+        
         try {
         	LOGGER.info("email send from " + ADMIN_EMAIL);
         	LOGGER.info("email send to " + to);
@@ -168,6 +168,7 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
         } catch (MessagingException | UnsupportedEncodingException e) {
         	LOGGER.error("email failed send " +e);
         	e.printStackTrace();
+            //throw new RuntimeException(e);
         }
     }
     
