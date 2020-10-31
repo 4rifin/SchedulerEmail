@@ -146,7 +146,7 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 		Session session = Session.getInstance(props, null);
 		try {
 			Message msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress("postmaster@sandbox6cec0c7e68f340fca515bebc0c8ef374.mailgun.org"));
+			msg.setFrom(new InternetAddress("sandboxa57843304499478686fce64c37bef8e1.mailgun.org"));
 			InternetAddress[] addrs = InternetAddress.parse("ndms.arifin@gmail.com", false);
 			msg.setRecipients(Message.RecipientType.TO, addrs);
 
@@ -155,8 +155,8 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 			msg.setSentDate(new Date());
 			//msg.setContent(content, "text/html; charset=utf-8");
 			SMTPTransport t = (SMTPTransport) session.getTransport("smtps");
-			t.connect("smtp.mailgun.org", "postmaster@sandbox6cec0c7e68f340fca515bebc0c8ef374.mailgun.org",
-					"eaa492c7007618079e0906201c0e47bb-9b1bf5d3-213f77c0");
+			t.connect("smtp.mailgun.org", "postmaster@sandboxa57843304499478686fce64c37bef8e1.mailgun.org",
+					"08747984fbf772c3f33fc94c41ca848a-9b1bf5d3-f072c7bf");
 			t.sendMessage(msg, msg.getAllRecipients());
 			System.out.println("Response: " + t.getLastServerResponse());
 
