@@ -2,7 +2,6 @@ package com.springscheduler.service;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -28,7 +27,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.springscheduler.GMailAuthenticator;
-import com.sun.mail.smtp.SMTPTransport;
 
 @Transactional
 @Service
@@ -182,7 +180,7 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 	    props.put("mail.smtp.host", SMTP_HOST); 
 	    props.put("mail.smtp.port", SMTP_PORT); 
 	    props.put("mail.smtp.auth", "true"); 
-	    props.put("mail.smtp.starttls.enable","true"); 
+	    props.put("mail.smtp.starttls.enable","false");
 	    props.put("mail.smtp.EnableSSL.enable","true");
 
         //Session session =  Session.getInstance(props, new GMailAuthenticator(ADMIN_EMAIL, ADMIN_PASSWORD)); 
