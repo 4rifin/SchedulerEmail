@@ -138,36 +138,41 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
      }
 
 	public static void sendEmailAsHtmlWithMailGun(String from, String to, String tocc, String subject, String content) {
-		setProperties();
-		Properties props = System.getProperties();
-		props.put("mail.smtps.host", "smtp.mailgun.org");
-		props.put("mail.smtps.auth", "true");
+    	setProperties();
+        Properties props = new Properties();
+        props.put("mail.smtp.user",ADMIN_EMAIL); 
+	    props.put("mail.smtp.password", ADMIN_PASSWORD);
+	    props.put("mail.smtp.host", SMTP_HOST); 
+	    props.put("mail.smtp.port", SMTP_PORT); 
+		props.put("mail.smtp.auth", "true"); 
+	    props.put("mail.smtp.starttls.enable","false"); 
+	    props.put("mail.smtp.EnableSSL.enable","true");
+ 
+        Authenticator authenticator = new Authenticator () {
+            public PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(ADMIN_EMAIL,ADMIN_PASSWORD);
+            }
+        };
 
-		Session session = Session.getInstance(props, null);
-		try {
-			Message msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress("sandboxa57843304499478686fce64c37bef8e1.mailgun.org"));
-			InternetAddress[] addrs = InternetAddress.parse("ndms.arifin@gmail.com", false);
-			msg.setRecipients(Message.RecipientType.TO, addrs);
-
-			msg.setSubject("Hello");
-			msg.setText("Testing some Mailgun awesomness");
-			msg.setSentDate(new Date());
-			//msg.setContent(content, "text/html; charset=utf-8");
-			SMTPTransport t = (SMTPTransport) session.getTransport("smtps");
-			t.connect("smtp.mailgun.org", "postmaster@sandboxa57843304499478686fce64c37bef8e1.mailgun.org",
-					"08747984fbf772c3f33fc94c41ca848a-9b1bf5d3-f072c7bf");
-			t.sendMessage(msg, msg.getAllRecipients());
-			System.out.println("Response: " + t.getLastServerResponse());
-
-			t.close();
-		} catch (MessagingException e) {
-			LOGGER.error("email failed send " + e);
-			e.printStackTrace();
-			// throw new RuntimeException(e);
-		}
-
-	}
+		Session session = Session.getDefaultInstance(props, authenticator); 
+        
+        try {
+        	LOGGER.info("email send from " + ADMIN_EMAIL);
+        	LOGGER.info("email send to " + to);
+        	LOGGER.info("email send tocc " + tocc);
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(ADMIN_EMAIL, EMAIL_ALIAS));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to!=null?to:tocc));
+            message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(tocc!=null?tocc:to));
+            message.setSubject(subject);
+            message.setContent(content, "text/html; charset=utf-8");           
+            Transport.send(message);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+        	LOGGER.error("email failed send " +e);
+        	e.printStackTrace();
+            //throw new RuntimeException(e);
+        }
+    }
     
     public static void sendEmailAsHtml(String from, String to, String tocc, String subject, String content) {
     	setProperties();
