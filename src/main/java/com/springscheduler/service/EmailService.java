@@ -140,17 +140,17 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
 	public static void sendEmailAsHtmlWithMailGun(String from, String to, String tocc, String subject, String content) {
     	setProperties();
         Properties props = new Properties();
-        props.put("mail.smtp.user",ADMIN_EMAIL); 
-	    props.put("mail.smtp.password", ADMIN_PASSWORD);
-	    props.put("mail.smtp.host", SMTP_HOST); 
-	    props.put("mail.smtp.port", SMTP_PORT); 
+        props.put("mail.smtp.user","postmaster@sandboxa57843304499478686fce64c37bef8e1.mailgun.org"); 
+	    props.put("mail.smtp.password", "08747984fbf772c3f33fc94c41ca848a-9b1bf5d3-f072c7bf");
+	    props.put("mail.smtp.host", "smtp.mailgun.org"); 
+	    props.put("mail.smtp.port", "587"); 
 		props.put("mail.smtp.auth", "true"); 
 	    props.put("mail.smtp.starttls.enable","false"); 
 	    props.put("mail.smtp.EnableSSL.enable","true");
  
         Authenticator authenticator = new Authenticator () {
             public PasswordAuthentication getPasswordAuthentication(){
-                return new PasswordAuthentication(ADMIN_EMAIL,ADMIN_PASSWORD);
+                return new PasswordAuthentication("postmaster@sandboxa57843304499478686fce64c37bef8e1.mailgun.org","08747984fbf772c3f33fc94c41ca848a-9b1bf5d3-f072c7bf");
             }
         };
 
@@ -161,7 +161,7 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
         	LOGGER.info("email send to " + to);
         	LOGGER.info("email send tocc " + tocc);
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(ADMIN_EMAIL, EMAIL_ALIAS));
+            message.setFrom(new InternetAddress("postmaster@sandboxa57843304499478686fce64c37bef8e1.mailgun.org", EMAIL_ALIAS));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to!=null?to:tocc));
             message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(tocc!=null?tocc:to));
             message.setSubject(subject);
