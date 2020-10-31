@@ -2,6 +2,7 @@ package com.springscheduler.service;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.springscheduler.GMailAuthenticator;
+import com.sun.mail.smtp.SMTPTransport;
 
 @Transactional
 @Service
@@ -134,6 +136,39 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
             //throw new RuntimeException(e);
         }
      }
+
+	public static void sendEmailAsHtmlWithMailGun(String from, String to, String tocc, String subject, String content) {
+		setProperties();
+		Properties props = System.getProperties();
+		props.put("mail.smtps.host", "smtp.mailgun.org");
+		props.put("mail.smtps.auth", "true");
+
+		Session session = Session.getInstance(props, null);
+		try {
+			Message msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress("postmaster@sandbox6cec0c7e68f340fca515bebc0c8ef374.mailgun.org"));
+			InternetAddress[] addrs = InternetAddress.parse("ndms.arifin@gmail.com", false);
+			msg.setRecipients(Message.RecipientType.TO, addrs);
+
+			msg.setSubject("Hello");
+			msg.setText("Testing some Mailgun awesomness");
+			msg.setSentDate(new Date());
+			//msg.setContent(content, "text/html; charset=utf-8");
+			SMTPTransport t = (SMTPTransport) session.getTransport("smtps");
+			t.connect("smtp.mailgun.org", "postmaster@sandbox6cec0c7e68f340fca515bebc0c8ef374.mailgun.org",
+					"eaa492c7007618079e0906201c0e47bb-9b1bf5d3-213f77c0");
+			t.sendMessage(msg, msg.getAllRecipients());
+			System.out.println("Response: " + t.getLastServerResponse());
+
+			t.close();
+		} catch (MessagingException e) {
+			LOGGER.error("email failed send " + e);
+			e.printStackTrace();
+			// throw new RuntimeException(e);
+		}
+
+	}
+    
     public static void sendEmailAsHtml(String from, String to, String tocc, String subject, String content) {
     	setProperties();
         Properties props = new Properties();
@@ -283,6 +318,56 @@ public static final String EMAIL_ALIAS = "ndms.arifin@gmail.com";
     
     public static void setupEmailUser(String toEmail,String uri,String userName){
     	sendEmailAsHtml(EmailService.ADMIN_EMAIL, toEmail, "","ACCOUNT USER",
+				""
+				+ "<div style='font-family:verdana;'>"
+				+ "<table width='100%'>"
+				+ "				<caption><h2>Thank you for add user</h2></caption>"
+				+ "				<thead>"
+				+ "				<tr>"
+				+ "				</tr>"
+				+ "				</tbody></table>"
+				+ "				<br></div>"
+				+ "	<div style='font-family:verdana;'>"
+				+ "<table align='center'  border = '1'>"
+						+ "				<tr>"
+						+ "					<td style = 'background-color:red;'>"
+						+ "						Username"
+						+ "					</td>"
+						+ "					<td>"
+						+ "						"+userName+""
+						+ "					</td>"
+						+ "				</tr>"
+						+ "				<tr>"
+						+ "					<td style = 'background-color:red;'>"
+						+ "						email"
+						+ "					</td>"
+						+ "					<td>"
+						+ "						"+toEmail+""
+						+ "					</td>"
+						+ "				</tr>"
+						+ "				</table>"
+						+ "							<table width='100%'>"
+				+ "				<table width='30%' cellspacing='0' cellpadding='0' border='0' align='center'>"
+						+ "									<tbody>"
+						+ "									<tr>"
+						+ "										<td style='padding:14px 20px 14px 20px;background-color:#133455;border-radius:4px' align='center'>"
+						+ "											<a class='m_-6014688869329807025m_overflow280' href="+uri+" style='font-family:helvetica neue,helvetica,arial,sans-serif;font-weight:bold;font-size:18px;line-height:22px;color:#ffffff;text-decoration:none;display:block;text-align:center;max-width:400px;overflow:hidden;text-overflow:ellipsis' target='_blank'> Login</a>'"
+						+ "										</td>"
+						+ "									</tr>"
+						+ "									</tbody>"
+						+ "			</table></table>"
+				+ "<br></div>"
+				+ "<div style='font-family:verdana;'>"
+			+ "<table width='100%'>"
+			+ "	<caption><p>ndms.arifin@gmail.com</p></caption>"
+			+ "	<thead>"
+			+ "	<tr>"
++ "				</tr>"
++ "				</tbody></table>"
++ "				<br></div>");
+    }
+    public static void setupEmailUserWitMailGun(String toEmail,String uri,String userName){
+    	sendEmailAsHtmlWithMailGun(EmailService.ADMIN_EMAIL, toEmail, "","ACCOUNT USER",
 				""
 				+ "<div style='font-family:verdana;'>"
 				+ "<table width='100%'>"
