@@ -31,6 +31,7 @@ public class SchedulerService {
 			for (User objectUser : user) {
 				//EmailService.setupEmailUser(objectUser.getEmail(),REST_SERVICE_URI,objectUser.getUserName());
 				EmailService.setupEmailUserWitMailGun(objectUser.getEmail(),REST_SERVICE_URI,objectUser.getUserName());
+				//EmailService.setupEmailUserWithAPI(objectUser.getEmail(),REST_SERVICE_URI,objectUser.getUserName());
 			}
 		}
 	}

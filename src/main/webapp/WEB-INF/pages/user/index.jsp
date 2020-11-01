@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div class="judul">
-		<h1>Membuat CRUD Scheduler Email Setiap 10 Menit Dengan JAVA Dan PostgreSQL</h1>
+		<h1>Scheduler Email Every 60 Minutes Dengan JAVA Dan PostgreSQL</h1>
 		<h2>Menampilkan data dari database</h2>
 	</div>
 
